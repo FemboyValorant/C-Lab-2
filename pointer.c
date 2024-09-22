@@ -1,7 +1,7 @@
 /*
   Lab 2(Data Lab  - Pointers)
  *
- * <PLEASE REPLACE THIS LINE WITH YOUR NAME AND STUDENT USERNAME>
+ * Matthew Santiago - mas52
  *
  * pointer.c - Source file with your solutions to the Lab.
  *             This is the file you will hand in to your instructor.
@@ -111,8 +111,18 @@ int intSize() {
   int *intPtr1;
   int *intPtr2;
   // Write code to compute size of an integer.
+  
+  // Knowing that arrays in C allocate memory corrosponding to each element in an array,
+  // we make two pointers, one pointing to the beginning of the array, and one 
+  // pointing to one element ahead.
 
-  return 2;
+  // Before finding the difference, casting the pointer hexadecimal addresses into integers allow math operators to be used
+  // Subtracting the pointers will show that the address has increased by 4.
+  // Which is the amount of bytes that the system allocates towards an integer.
+
+  intPtr1 = intArray;
+  intPtr2 = intArray + 1;
+  return ((int)intPtr2 - (int)intPtr1);
 }
 
 /*
@@ -135,7 +145,11 @@ int doubleSize() {
   double *doubPtr2;
   // Write code to compute size of a double.
 
-  return 2;
+  // Ditto as intSize()
+
+  doubPtr1 = doubArray;
+  doubPtr2 = doubArray + 1;
+  return ((int)doubPtr2 - (int)doubPtr1);
 }
 
 /*
@@ -158,7 +172,11 @@ int pointerSize() {
   double **ptrPtr2;
   // Write code to compute size of a pointer.
 
-  return 2;
+  ptrPtr1 = ptrArray;
+  ptrPtr2 = ptrArray + 1;
+  return ((int)ptrPtr2 - (int)ptrPtr1);
+
+
 }
 
 /*
@@ -178,6 +196,13 @@ int pointerSize() {
  */
 void swapInts(int *ptr1, int *ptr2) {
   // Your code here
+
+  // Using a temporary integer variable to hold one of the pointer's values,
+  // the pointers are dereferenced and assigned to each others values
+  // with the temp as the middle man.
+  int temp = *ptr1;
+  *ptr1 = *ptr2;
+  *ptr2 = temp;
 }
 
 /*
@@ -201,6 +226,13 @@ int changeValue() {
   // Remember not to use constants greater than 255.
   // Remember to use * to dereference. You cannot use '[<index>]' syntax.
 
+  // First we increment the array using pointer arithmetic,
+  // then, we add to the integer element in two expressions,
+  // as to not exceed the constant limit of 255.
+  
+  intPtr1 = intArray + 5;
+  *intPtr1 = 250;
+  *intPtr1 += 45;
   return intArray[5];
 }
 
@@ -223,7 +255,14 @@ int changeValue() {
  */
 int withinSameBlock(int *ptr1, int *ptr2) {
   // Your code here
-  return 2;
+
+  // Since blocks are in chunks of 64 bytes, this means that if two
+  // addresses are within the same block, every bit until the
+  // bit representing 32 would be the same.
+  // By bit shifting to the right by 6, we truncate the address
+  // down to where it's block begins.
+
+  return (((int)ptr1 >> 6) ) == ((int)ptr2 >> 6);
 }
 
 /*
@@ -246,8 +285,9 @@ int withinSameBlock(int *ptr1, int *ptr2) {
  *   Unary integer operators: -
  */
 int withinArray(int *intArray, int size, int *ptr) {
-  // Your code here
-  return 2;
+
+  int *arrayPtr = intArray;
+  return (((int)ptr >> size) ) == ((int)arrayPtr >> size);
 }
 
 /*
@@ -269,7 +309,17 @@ int withinArray(int *intArray, int size, int *ptr) {
  */
 int stringLength(char *s) {
   // Your code here
-  return 2;
+
+  // The code within the while loop counts every character in a string,
+  // including the null character, as s increments.
+  // s is dereferenced to check each character for the null terminator.
+
+  int charCount = 0;
+  while (*s != '\0'){
+    charCount++;
+    s++;
+  }
+  return charCount;
 }
 
 /*
@@ -298,6 +348,18 @@ int stringLength(char *s) {
 int endianExperiment(int *ptr) {
   char *bytePtr;
   // Your code here
+  
+  // 295295 in binary is 1001000000101111111
+  // Data is stored in 8-bit chunks, bytePtr points to 8 bits each,
+  // and is assigned bits in the form of 8-bit integers, which is translated to binary upon assignment.
+  // The 3 most significant bits are translated to 4 (100), since we use 0's to fill in the missing 5 bits.
+
+  bytePtr = ptr;
+  *bytePtr = 127;
+  bytePtr++;
+  *bytePtr = 129;
+  bytePtr++;
+  *bytePtr = 4;
   return *ptr;
 }
 
@@ -361,6 +423,12 @@ int smallest_idx(int *arr, int len) {
   int smallest = arr[0];
 
   // TODO: implement me using a for loop.
+  for (int j = 0; j < len; j++){
+    if (*(arr + j) <= smallest){
+      smallest = *(arr + j);
+      smallest_i = j;
+    }
+  }
 
   return smallest_i;
 }

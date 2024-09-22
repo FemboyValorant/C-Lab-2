@@ -1,23 +1,25 @@
 *********************
 * Lab 2 Reflection *
 *********************
-Name: 
-ID:   
+Name: Matthew Santiago
+ID: 301555709
 
 
 -----------------------------------------------------------
 1) Use/Benefit:
 
-
-
+I learned how to manipulate bits without the use of the main logic operators.
 -----------------------------------------------------------
 2) Steps:
 
-
-
+1. Get stuck on hard question.
+2. Approach from different angle
+3. Use resources given to come to a solution.
 -----------------------------------------------------------
 3) Explain:
 
-
-
+First, I got stuck and frustrated on the withinSameBlock() implementation.
+Secondly, after breaking down the problem I realized to think in binary and not hexadecimal
+After, I realized that since bitshifting was allowed, that I was meant to use those operators to solve the question.
+Lastly, I solved it and carried on with the lab happily.
 -----------------------------------------------------------
